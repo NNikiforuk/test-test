@@ -6,6 +6,7 @@ type Global = {
 };
 
 type Author = {
+	id: string | number;
 	name: string;
 };
 
@@ -18,7 +19,7 @@ type Page = {
 type Post = {
 	image: string;
 	title: string;
-	author: Author;
+	author: string | Author;
 	content: string;
 	published_date: string;
 	slug: string;
@@ -28,6 +29,7 @@ type Schema = {
 	posts: Post[];
 	global: Global;
 	pages: Page[];
+	authors: Author[];
 };
 
 const directus = createDirectus<Schema>("https://directus.trad.house").with(
