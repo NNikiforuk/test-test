@@ -5,16 +5,12 @@ import { readItems } from "@directus/sdk";
 
 export async function getStaticPaths() {
 	try {
-		// Pobierz wszystkie strony z Directus
 		const pages = await directus.request(
 			readItems("pages", {
 				fields: ["slug", "title", "content"],
 			})
 		);
 
-		// console.log("Fetched pages:", pages); // Sprawdźmy co otrzymujemy
-
-		// Utwórz ścieżkę dla każdej strony
 		return pages.map((page) => ({
 			params: { slug: page.slug },
 			props: { page },
@@ -25,7 +21,6 @@ export async function getStaticPaths() {
 	}
 }
 
-// Pobierz props ze ścieżki
 const { page } = Astro.props;
 ---
 
