@@ -1,18 +1,32 @@
 ---
-export const prerender = false;
-
 import Layout from "../layouts/Layout.astro";
 import directus from "../lib/directus";
 import { readItems } from "@directus/sdk";
 
 export async function getStaticPaths() {
-	const pages = await directus.request(readItems("pages"));
-	return pages.map((page) => ({
-		params: { slug: page.slug },
-		props: page,
-	}));
+	try {
+		// Pobierz wszystkie strony z Directus
+		const pages = await directus.request(
+			readItems("pages", {
+				fields: ["slug", "title", "content"],
+			})
+		);
+
+		// console.log("Fetched pages:", pages); // Sprawdźmy co otrzymujemy
+
+		// Utwórz ścieżkę dla każdej strony
+		return pages.map((page) => ({
+			params: { slug: page.slug },
+			props: { page },
+		}));
+	} catch (error) {
+		console.error("Error fetching pages:", error);
+		return [];
+	}
 }
-const page = Astro.props;
+
+// Pobierz props ze ścieżki
+const { page } = Astro.props;
 ---
 
 <Layout title={page.title}>
