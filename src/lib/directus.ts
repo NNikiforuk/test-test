@@ -17,7 +17,6 @@ type Page = {
 };
 
 type Post = {
-	image: string;
 	title: string;
 	author: string | Author;
 	content: string;
